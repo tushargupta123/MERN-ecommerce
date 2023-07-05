@@ -8,19 +8,19 @@ import {
 import { Link, Navigate, useNavigate } from "react-router-dom";
 import { discountedPrice } from "../../app/constants";
 
-export default function Counter() {
+export default function Cart() {
   const items = useSelector(selectItems);
   const dispatch = useDispatch();
   const navigate = useNavigate();
   const [open, setOpen] = useState(true);
 
   const totalAmount = items.reduce(
-    (amount, item) => discountedPrice(item) * item.quantity + amount,    0
+    (amount, item) => discountedPrice(item.product) * item.quantity + amount,    0
   );
   const totalItems = items.reduce((total, item) => item.quantity + total, 0);
 
   const handleQuantity = (e, item) => {
-    dispatch(updateItemAsync({ ...item, quantity: +e.target.value }));
+    dispatch(updateItemAsync({id:item.id, quantity: +e.target.value }));
   };
 
   const handleRemove = (e, id) => {
@@ -37,56 +37,58 @@ export default function Counter() {
         <div className="mt-8">
           <div className="flow-root">
             <ul role="list" className="-my-6 divide-y divide-gray-200">
-              {items.map((product) => (
-                <li key={product.id} className="flex py-6">
-                  <div className="h-24 w-24 flex-shrink-0 overflow-hidden rounded-md border border-gray-200">
-                    <img
-                      src={product.images[0]}
-                      alt={product.title}
-                      className="h-full w-full object-cover object-center"
-                    />
-                  </div>
-
-                  <div className="ml-4 flex flex-1 flex-col">
-                    <div>
-                      <div className="flex justify-between text-base font-medium text-gray-900">
-                        <h3>
-                          <a href={product.href}>{product.title}</a>
-                        </h3>
-                        <p className="ml-4">$ {discountedPrice(product)}</p>                      </div>
-                      <p className="mt-1 text-sm text-gray-500">
-                        {product.color}
-                      </p>
+              {items.map((item) => {
+                return (
+                  <li key={item.product.id} className="flex py-6">
+                    <div className="h-24 w-24 flex-shrink-0 overflow-hidden rounded-md border border-gray-200">
+                      <img
+                        src={item.product.thumbnail}
+                        alt={item.product.title}
+                        className="h-full w-full object-cover object-center"
+                      />
                     </div>
-                    <div className="flex flex-1 items-end justify-between text-sm">
-                      <p className="text-gray-500">
-                        Qty
-                        <select
-                          className="mx-5"
-                          onChange={(e) => handleQuantity(e, product)}
-                          value={product.quantity}
-                        >
-                          <option value="1">1</option>
-                          <option value="2">2</option>
-                          <option value="3">3</option>
-                          <option value="4">4</option>
-                          <option value="5">5</option>
-                        </select>
-                      </p>
-
-                      <div className="flex">
-                        <button
-                          type="button"
-                          onClick={(e) => handleRemove(e, product.id)}
-                          className="font-medium text-indigo-600 hover:text-indigo-500"
-                        >
-                          Remove
-                        </button>
+  
+                    <div className="ml-4 flex flex-1 flex-col">
+                      <div>
+                        <div className="flex justify-between text-base font-medium text-gray-900">
+                          <h3>
+                            <a href={item.product.id}>{item.product.title}</a>
+                          </h3>
+                          <p className="ml-4">$ {discountedPrice(item.product)}</p>                      </div>
+                        <p className="mt-1 text-sm text-gray-500">
+                          {item.product.brand}
+                        </p>
+                      </div>
+                      <div className="flex flex-1 items-end justify-between text-sm">
+                        <p className="text-gray-500">
+                          Qty
+                          <select
+                            className="mx-5"
+                            onChange={(e) => handleQuantity(e, item)}
+                            value={item.quantity}
+                          >
+                            <option value="1">1</option>
+                            <option value="2">2</option>
+                            <option value="3">3</option>
+                            <option value="4">4</option>
+                            <option value="5">5</option>
+                          </select>
+                        </p>
+  
+                        <div className="flex">
+                          <button
+                            type="button"
+                            onClick={(e) => handleRemove(e, item.id)}
+                            className="font-medium text-indigo-600 hover:text-indigo-500"
+                          >
+                            Remove
+                          </button>
+                        </div>
                       </div>
                     </div>
-                  </div>
-                </li>
-              ))}
+                  </li>
+                )
+              })}
             </ul>
           </div>
         </div>

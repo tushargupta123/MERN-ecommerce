@@ -2,7 +2,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { clearSelectedProduct, createProductAsync, fetchProductByIdAsync, selectBrands, selectCategories, selectProductById, updateProductAsync } from "../../product/productSlice";
 import { useForm } from "react-hook-form";
 import { Navigate, useNavigate, useParams } from "react-router-dom";
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 
 const ProductForm = () => {
   const dispatch = useDispatch();
@@ -17,6 +17,9 @@ const ProductForm = () => {
     reset,
     setValue
   } = useForm();
+
+  const [inboxBrand,setInboxBrand] = useState(false);
+  const [inboxCategory,setInboxCategory] = useState(false);
 
   useEffect(() => {
     if(params.id){
@@ -272,14 +275,32 @@ const ProductForm = () => {
                   Brand
                 </label>
                 <div className="mt-2">
-                 <select {...register('brand')}>
+                 {
+                  inboxBrand ? 
+                  <>
+                  <div className="flex rounded-md shadow-sm ring-1 ring-inset ring-gray-300 focus-within:ring-2 focus-within:ring-inset focus-within:ring-indigo-600">
+                    <input
+                      type="text"
+                      {...register("brand")}
+                      id="brand"
+                      className="block flex-1 border-0 bg-transparent py-1.5 pl-1 text-gray-900 placeholder:text-gray-400 focus:ring-0 sm:text-sm sm:leading-6"
+                    />
+                  </div>
+                  </>:
+                  <select {...register('brand')} onChange={(e) => { 
+                    if (e.target.value === 'add') {
+                      setInboxBrand(true);
+                    }
+                  }}>
                  <option value="">--- choose brand ---</option>
+                 <option value="add" ><strong>ADD NEW BRAND</strong></option>
                   {brands.map(brand => {
                     return(
                       <option value={brand.value}>{brand.label}</option>
                     )
                   })}
                  </select>
+                 }
                 </div>
               </div>
               <div className="col-span-3">
@@ -290,14 +311,32 @@ const ProductForm = () => {
                   Categories
                 </label>
                 <div className="mt-2">
-                 <select {...register('category')}>
+                {
+                  inboxCategory ? 
+                  <>
+                  <div className="flex rounded-md shadow-sm ring-1 ring-inset ring-gray-300 focus-within:ring-2 focus-within:ring-inset focus-within:ring-indigo-600">
+                    <input
+                      type="text"
+                      {...register("category")}
+                      id="category"
+                      className="block flex-1 border-0 bg-transparent py-1.5 pl-1 text-gray-900 placeholder:text-gray-400 focus:ring-0 sm:text-sm sm:leading-6"
+                    />
+                  </div>
+                  </>:
+                  <select {...register('category')} onChange={(e) => { 
+                    if (e.target.value === 'add') {
+                      setInboxCategory(true);
+                    }
+                  }}> 
                    <option value="">--- choose category ---</option>
+                 <option value="add" ><strong>ADD NEW CATEGORY</strong></option>
                   {categories.map(category => {
                     return(
                       <option value={category.value}>{category.label}</option>
                     )
                   })}
                  </select>
+                }
                 </div>
               </div>
             </div>
@@ -308,6 +347,7 @@ const ProductForm = () => {
           <button
             type="button"
             className="text-sm font-semibold leading-6 text-gray-900"
+            onClick={() => {reset(); navigate('/admin')}}
           >
             Cancel
           </button>
