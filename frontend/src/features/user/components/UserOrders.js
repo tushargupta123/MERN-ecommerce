@@ -2,23 +2,21 @@ import React, { useEffect } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import {
   fetchLoggedInUserOrderAsync,
-  selectUserInfo,
   selectUserOrders,
 } from '../userSlice';
 import { discountedPrice } from '../../../app/constants';
 
 export default function UserOrders() {
   const dispatch = useDispatch();
-  const userInfo = useSelector(selectUserInfo);
   const orders = useSelector(selectUserOrders);
 
   useEffect(() => {
-    dispatch(fetchLoggedInUserOrderAsync(userInfo.id));
-  }, [dispatch, userInfo]);
+    dispatch(fetchLoggedInUserOrderAsync());
+  }, [dispatch]);
 
   return (
     <div>
-      {orders.map((order) =>{ 
+      {orders && orders.map((order) =>{ 
       return (
         <div key={order.id}>
           <div>

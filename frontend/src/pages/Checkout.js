@@ -57,7 +57,6 @@ const Checkout = () => {
       selectAdd,
       status: "pending",
     };
-    console.log(order)
     dispatch(addOrderAsync(order));
   };
 
@@ -81,7 +80,6 @@ const Checkout = () => {
               className="bg-white px-8 py-8 my-4"
               noValidate
               onSubmit={handleSubmit((data) => {
-                console.log(data)
                 dispatch(
                   updateUserAsync({
                     id:user.id,

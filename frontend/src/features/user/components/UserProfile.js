@@ -224,7 +224,6 @@ export default function UserProfile() {
           </button>
           <p className="mt-0.5 text-sm text-gray-500">Shipping Address :</p>
           {user.addressess.map((address, index) => {
-            console.log(address)
             return (
               <>
                 {selectedEditIndex === index && (

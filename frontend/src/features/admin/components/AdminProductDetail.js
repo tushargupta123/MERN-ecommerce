@@ -5,7 +5,6 @@ import { selectProductById, fetchProductByIdAsync } from "../../product/productS
 import { useSelector, useDispatch } from "react-redux";
 import { useParams } from "react-router-dom";
 import { addToCartAsync } from "../../cart/cartSlice";
-import { selectLoggedInUser } from "../../auth/AuthSlice";
 import { discountedPrice } from '../../../app/constants';
 
 const colors = [
@@ -36,12 +35,11 @@ export default function AdminPrductDetail() {
   const product = useSelector(selectProductById);
   const dispatch = useDispatch();
   const params = useParams();
-  const user = useSelector(selectLoggedInUser)
 
   const handleCart = (e) => {
-    const newItem = {...product,quantity:1,user:user.id};
+    const newItem = {...product,quantity:1};
     delete newItem['id'];
-    dispatch(addToCartAsync({...product,quantity:1,user:user.id}))
+    dispatch(addToCartAsync(newItem))
   }
 
   useEffect(() => {

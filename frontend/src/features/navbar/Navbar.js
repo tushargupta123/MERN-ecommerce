@@ -8,7 +8,7 @@ import {
 import { Link, useNavigate } from "react-router-dom";
 import { useSelector } from "react-redux";
 import { selectItems } from "../cart/cartSlice";
-import { selectLoggedInUser } from "../auth/AuthSlice";
+import { selectUserInfo } from "../user/userSlice";
 
 const navigation = [
   { name: "Dashboard", link: "#", current: true,user:true },
@@ -30,11 +30,11 @@ export default function Navbar({ children }) {
 
   const navigate = useNavigate();
   const items = useSelector(selectItems);
-  const user = useSelector(selectLoggedInUser);
+  const userInfo = useSelector(selectUserInfo);
 
   return (
     <>
-      <div className="min-h-full">
+      {userInfo && <div className="min-h-full">
         <Disclosure as="nav" className="bg-gray-800">
           {({ open }) => (
             <>
@@ -53,7 +53,7 @@ export default function Navbar({ children }) {
                     <div className="hidden md:block">
                       <div className="ml-10 flex items-baseline space-x-4">
                       {navigation.map((item) =>
-                          item[user.role] ? (
+                          item[userInfo.role] ? (
                             <Link
                               key={item.name}
                               to={item.link}
@@ -95,7 +95,7 @@ export default function Navbar({ children }) {
                             <span className="sr-only">Open user menu</span>
                             <img
                               className="h-8 w-8 rounded-full"
-                              src={user.imageUrl}
+                              src={userInfo.imageUrl}
                               alt=""
                             />
                           </Menu.Button>
@@ -173,16 +173,16 @@ export default function Navbar({ children }) {
                     <div className="flex-shrink-0">
                       <img
                         className="h-10 w-10 rounded-full"
-                        src={user.imageUrl}
+                        src={userInfo.imageUrl}
                         alt=""
                       />
                     </div>
                     <div className="ml-3">
                       <div className="text-base font-medium leading-none text-white">
-                        {user.name}
+                        {userInfo.name}
                       </div>
                       <div className="text-sm font-medium leading-none text-gray-400">
-                        {user.email}
+                        {userInfo.email}
                       </div>
                     </div>
                       <button
@@ -230,7 +230,7 @@ export default function Navbar({ children }) {
             {children}
           </div>
         </main>
-      </div>
+      </div>}
     </>
   );
 }
