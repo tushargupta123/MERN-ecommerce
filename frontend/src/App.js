@@ -22,23 +22,29 @@ import AdminProductListPage from './pages/AdminProductListPage';
 import AdminProductDetailPage from './pages/AdminProductDetailPage';
 import AdminProductFormPage from './pages/AdminProductForm';
 import AdminOrdersPage from './pages/AdminOrdersPage';
-import { selectLoggedInUser } from './features/auth/AuthSlice';
+import { checkAuthAsync, selectLoggedInUser, selectUserChecked } from './features/auth/AuthSlice';
+import StripeCheckout from './pages/StripeCheckout';
 
 // npx json-server --watch ./src/app/data.json --port 8080
 
 function App() {
   const dispatch = useDispatch();
   const user = useSelector(selectLoggedInUser)
+  const userCheck = useSelector(selectUserChecked)
   useEffect(() => {
     if(user){
       dispatch(fetchItemsByUserIdAsync())
       dispatch(fetchLoggedInUserAsync())
     }
-  },[dispatch,user])
+  },[dispatch,user]);
+
+  useEffect(() => {
+    dispatch(checkAuthAsync())
+  },[])
 
   return (
     <div>
-      <BrowserRouter>
+     {userCheck &&  <BrowserRouter>
         <Routes>
           <Route path="/" element={<Protected><Home/></Protected>}/>
           <Route path="*" element={<PageNotFound/>}/>
@@ -57,8 +63,9 @@ function App() {
           <Route path="/admin/product-form" element={<ProtectedAdmin><AdminProductFormPage/></ProtectedAdmin>}/>
           <Route path="/admin/product-form/edit/:id" element={<ProtectedAdmin><AdminProductFormPage/></ProtectedAdmin>}/>
           <Route path="/admin/orders" element={<ProtectedAdmin><AdminOrdersPage/></ProtectedAdmin>}/>
+          <Route path="/stripe-checkout" element={<Protected><StripeCheckout/></Protected>}/>
         </Routes>
-      </BrowserRouter>
+      </BrowserRouter>}
     </div>
   );
 }

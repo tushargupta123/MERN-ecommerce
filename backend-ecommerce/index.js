@@ -75,7 +75,7 @@ passport.use(
             done(null, false, { message: "invalid credentials" });
           } else {
             const token = jwt.sign(sanitizeUser(user), SECRET_KEY);
-            done(null, {token});
+            done(null, {id:user.id,role:user.role});
           }
         }
       );
@@ -112,6 +112,28 @@ passport.deserializeUser(function (user, cb) {
     return cb(null, user);
   });
 });
+
+
+//Payments
+
+const stripe = require('stripe')('sk_test_51NS13iSCXLoy346ZK25A4MGCusQvLF5GrH5gtdqNxVY4klABYY11Sa159oj1LQ3LtNWt8YxPKlyUylaDv0enju3J00aaq1cYU0')
+const calculateOrderAmount = (items) => {
+  return 1400;
+}
+
+server.post('/create-payment-intent',async(req,res) => {
+  const {items} = req.body;
+  const paymentIntent = await stripe.paymentIntents.create({
+    amount:calculateOrderAmount(items),
+    currency:'inr',
+    automatic_payment_methods: {
+      enabled: true,
+    }
+  })
+  res.send({
+    clientSecret: paymentIntent.client_secret
+  })
+})
 
 server.listen("8080", () => {
   console.log("server started on port 8080");

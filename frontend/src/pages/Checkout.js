@@ -67,12 +67,19 @@ const Checkout = () => {
     formState: { errors },
   } = useForm();
 
+  useEffect(() => {
+    if(currentOrder){
+      if(currentOrder.paymentMethod==="cash"){
+        navigate(`/order-success/${currentOrder.id}`)
+      }else{
+        navigate(`/stripe-checkout`)
+      }
+    }
+  },[currentOrder])
+
   return (
     <>
       {totalItems === 0 && <Navigate to="/"></Navigate>}
-      {currentOrder && (
-        <Navigate to={`/order-success/${currentOrder.id}`}></Navigate>
-      )}
       <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
         <div className="grid grid-cols-1 gap-x-8 gap-y-10 lg:grid-cols-5">
           <div className="lg:col-span-3">
@@ -240,7 +247,7 @@ const Checkout = () => {
                     Choose from existing address
                   </p>
                   <ul role="list" className="divide-y divide-gray-100">
-                    {user.addressess.map((address, index) => {
+                    {user && user.addressess.map((address, index) => {
                       return (
                       <li
                         key={address.index}
