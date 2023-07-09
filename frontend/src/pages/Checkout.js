@@ -7,7 +7,7 @@ import {
   updateItemAsync,
 } from "../features/cart/cartSlice";
 import { useForm } from "react-hook-form";
-import { updateUserAsync } from "../features/auth/AuthSlice";
+import { updateUserAsync } from "../features/user/userSlice";
 import {
   addOrderAsync,
   selectCurrentOrder,
@@ -57,6 +57,7 @@ const Checkout = () => {
       selectAdd,
       status: "pending",
     };
+    console.log(order)
     dispatch(addOrderAsync(order));
   };
 
@@ -244,7 +245,7 @@ const Checkout = () => {
                     {user.addressess.map((address, index) => {
                       return (
                       <li
-                        key={address[0].index}
+                        key={address.index}
                         className="flex justify-between gap-x-6 py-5"
                       >
                         <div className="flex gap-x-4">
@@ -258,32 +259,32 @@ const Checkout = () => {
                           />
                           <div className="min-w-0 flex-auto">
                             <p className="text-sm font-semibold leading-6 text-gray-900">
-                              {address[0].name}
+                              {address.name}
                             </p>
                             <p className="mt-1 truncate text-xs leading-5 text-gray-500">
-                              {address[0].email}
+                              {address.email}
                             </p>
                           </div>
                         </div>
                         <div className="hidden sm:flex sm:flex-col sm:items-end">
                           <p className="text-sm leading-6 text-gray-900">
-                            {address[0].street}
+                            {address.street}
                           </p>
                         </div>
                         <div className="hidden sm:flex sm:flex-col sm:items-end">
                           <p className="text-sm leading-6 text-gray-900">
-                            {address[0].state}
+                            {address.state}
                           </p>
                           <p className="mt-1 text-xs leading-5 text-gray-500">
-                            {address[0].city}
+                            {address.city}
                           </p>
                         </div>
                         <div className="hidden sm:flex sm:flex-col sm:items-end">
                           <p className="text-sm leading-6 text-gray-900">
-                            {address[0].pincode}
+                            {address.pincode}
                           </p>
                           <p className="mt-1 text-xs leading-5 text-gray-500">
-                            {address[0].phone}
+                            {address.phone}
                           </p>
                         </div>
                       </li>

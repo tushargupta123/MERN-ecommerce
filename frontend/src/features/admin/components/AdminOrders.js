@@ -74,12 +74,12 @@ const AdminOrders = () => {
                           <div className="mr-2">
                             <img
                               className="w-6 h-6 rounded-full"
-                              src={item.thumbnail}
+                              src={item.product.thumbnail}
                             />
                           </div>
                           <span>
-                            {item.title} - {item.quantity} - ${" "}
-                            {discountedPrice(item)}
+                            {item.product.title} - {item.quantity} - ${" "}
+                            {discountedPrice(item.product)}
                           </span>
                         </div>
                       ))}
@@ -91,9 +91,9 @@ const AdminOrders = () => {
                     </td>
                     <td className="py-3 px-6 text-center">
                       <div className="flex items-center justify-center">
-                        <strong>{order.selectAdd.name}</strong> ,{" "}
-                        {order.selectAdd.street} , {order.selectAdd.city} ,{" "}
-                        {order.selectAdd.pincode}
+                        <strong>{order.selectAdd[0].name}</strong> ,{" "}
+                        {order.selectAdd[0].street} , {order.selectAdd[0].city} ,{" "}
+                        {order.selectAdd[0].pincode}
                       </div>
                     </td>
                     <td className="py-3 px-6 text-center">

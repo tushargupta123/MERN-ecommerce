@@ -1,21 +1,26 @@
-import React, { useEffect } from "react";
-import { useSelector, useDispatch } from "react-redux";
-import { fetchLoggedInUserOrderAsync, selectUserInfo, selectUserOrders } from "../userSlice";
-import { discountedPrice } from "../../../app/constants";
+import React, { useEffect } from 'react';
+import { useSelector, useDispatch } from 'react-redux';
+import {
+  fetchLoggedInUserOrderAsync,
+  selectUserInfo,
+  selectUserOrders,
+} from '../userSlice';
+import { discountedPrice } from '../../../app/constants';
 
 export default function UserOrders() {
   const dispatch = useDispatch();
-  const user = useSelector(selectUserInfo);
+  const userInfo = useSelector(selectUserInfo);
   const orders = useSelector(selectUserOrders);
 
   useEffect(() => {
-    dispatch(fetchLoggedInUserOrderAsync(user.id));
-  }, [user]);
+    dispatch(fetchLoggedInUserOrderAsync(userInfo.id));
+  }, [dispatch, userInfo]);
 
   return (
     <div>
-      {orders.map((order) => (
-        <div>
+      {orders.map((order) =>{ 
+      return (
+        <div key={order.id}>
           <div>
             <div className="mx-auto mt-12 bg-white max-w-7xl px-4 sm:px-6 lg:px-8">
               <div className="border-t border-gray-200 px-4 py-6 sm:px-6">
@@ -26,10 +31,9 @@ export default function UserOrders() {
                   Order Status : {order.status}
                 </h3>
                 <div className="flow-root">
-                  <ul role="list" className="-my-6 divide-y divide-gray-200">
-                    {order.items.map((item) => {
-                    return(
-                      <li key={item.product.id} className="flex py-6">
+                  <ul className="-my-6 divide-y divide-gray-200">
+                    {order.items.map((item) => (
+                      <li key={item.id} className="flex py-6">
                         <div className="h-24 w-24 flex-shrink-0 overflow-hidden rounded-md border border-gray-200">
                           <img
                             src={item.product.thumbnail}
@@ -42,9 +46,10 @@ export default function UserOrders() {
                           <div>
                             <div className="flex justify-between text-base font-medium text-gray-900">
                               <h3>
-                                <a href={item.product.href}>{item.product.title}</a>
+                                <a href={item.product.id}>{item.product.title}</a>
                               </h3>
-                              <p className="ml-4">${discountedPrice(item.product)}</p>                            </div>
+                              <p className="ml-4">${discountedPrice(item.product)}</p>
+                            </div>
                             <p className="mt-1 text-sm text-gray-500">
                               {item.product.brand}
                             </p>
@@ -63,7 +68,7 @@ export default function UserOrders() {
                           </div>
                         </div>
                       </li>
-                    )})}
+                    ))}
                   </ul>
                 </div>
               </div>
@@ -80,7 +85,7 @@ export default function UserOrders() {
                 <p className="mt-0.5 text-sm text-gray-500">
                   Shipping Address :
                 </p>
-                <div className="flex mt-2 justify-between gap-x-6 px-5 py-5 border-solid border-2 border-gray-200">
+                <div className="flex justify-between gap-x-6 px-5 py-5 border-solid border-2 border-gray-200">
                   <div className="flex gap-x-4">
                     <div className="min-w-0 flex-auto">
                       <p className="text-sm font-semibold leading-6 text-gray-900">
@@ -107,7 +112,7 @@ export default function UserOrders() {
             </div>
           </div>
         </div>
-      ))}
+      )})}
     </div>
   );
 }

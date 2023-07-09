@@ -33,6 +33,7 @@ exports.createProduct = async (req, res) => {
     res.status(500).json(err);
   }
 };
+
 exports.fetchAllProducts = async (req, res) => {
   let products = Product.find({});
   let totalProducts = Product.find({});
