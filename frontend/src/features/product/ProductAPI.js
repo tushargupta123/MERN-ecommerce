@@ -17,7 +17,7 @@ export function fetchProductsByFilters(filter,sort,pagination) {
   }
 
   return new Promise(async(resolve) =>{
-  const response = await fetch('http://localhost:8080/products?'+queryString);
+  const response = await fetch('/products?'+queryString);
   const data = await response.json();
   const totalPages = await response.headers.get('X-Total-Count');
   resolve({data:{products:data,totalItems:totalPages}})
@@ -27,7 +27,7 @@ export function fetchProductsByFilters(filter,sort,pagination) {
 
 export function fetchCategories() {
   return new Promise(async (resolve) =>{
-    const response = await fetch('http://localhost:8080/categories') 
+    const response = await fetch('/categories') 
     const data = await response.json()
     resolve({data})
   }
@@ -36,7 +36,7 @@ export function fetchCategories() {
 
 export function fetchBrands() {
   return new Promise(async (resolve) =>{
-    const response = await fetch('http://localhost:8080/brands') 
+    const response = await fetch('/brands') 
     const data = await response.json()
     resolve({data})
   }
@@ -46,7 +46,7 @@ export function fetchBrands() {
 export function fetchProductById(id) {
   return new Promise(async (resolve) =>{
     //TODO: we will not hard-code server URL here
-    const response = await fetch('http://localhost:8080/products/'+id) 
+    const response = await fetch('/products/'+id) 
     const data = await response.json()
     resolve({data})
   }
@@ -55,7 +55,7 @@ export function fetchProductById(id) {
 
 export function createProduct(productData) {
   return new Promise(async (resolve) => {
-    const response = await fetch("http://localhost:8080/products", {
+    const response = await fetch("/products", {
       method: "POST",
       body: JSON.stringify(productData),
       headers: {
@@ -69,7 +69,7 @@ export function createProduct(productData) {
 
 export function updateProduct(update) {
   return new Promise(async(resolve) =>{
-  const response = await fetch('http://localhost:8080/products/'+update.id,{
+  const response = await fetch('/products/'+update.id,{
     method: 'PATCH',
     body: JSON.stringify(update),
     headers:{

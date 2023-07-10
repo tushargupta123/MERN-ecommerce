@@ -17,10 +17,10 @@ export default function StripeCheckout() {
   useEffect(() => {
     setInterval(() => {
       if (currentOrder) {
-        fetch("http://localhost:8080/create-payment-intent", {
+        fetch("/create-payment-intent", {
           method: "POST",
           headers: { "Content-Type": "application/json" },
-          body: JSON.stringify({ items: currentOrder.items }),
+          body: JSON.stringify({ totalAmount: currentOrder.totalAmount }),
         })
           .then((res) => res.json())
           .then((data) => setClientSecret(data.clientSecret));
@@ -37,7 +37,7 @@ export default function StripeCheckout() {
   };
 
   return (
-    <div className="App">
+    <div className="Stripe">
       {clientSecret && (
         <Elements options={options} stripe={stripePromise}>
           <CheckoutForm />

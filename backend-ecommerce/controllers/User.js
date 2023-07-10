@@ -1,5 +1,4 @@
 const { User } = require("../model/User");
-const { sanitizeUser } = require("../services/common");
 
 exports.fetchUserById = async(req,res) => {
     try{

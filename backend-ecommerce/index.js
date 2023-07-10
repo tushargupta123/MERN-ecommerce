@@ -19,12 +19,13 @@ const JwtStrategy = require("passport-jwt").Strategy;
 const cookieParser = require('cookie-parser');
 const jwt = require("jsonwebtoken");
 const SECRET_KEY = "SECRET_KEY";
+const path = require("path");
 
 const opts = {};
 opts.jwtFromRequest = cookieExtractor;
 opts.secretOrKey = SECRET_KEY;
 
-server.use(express.static('build'))
+server.use(express.static(path.resolve(__dirname,'build')))
 
 server.use(express.json());
 server.use(
@@ -44,7 +45,7 @@ server.use(cookieParser());
 server.use(passport.authenticate("session"));
 
 async function main() {
-  await mongoose.connect("mongodb://127.0.0.1:27017/Ecommerce");
+  await mongoose.connect("mongodb+srv://tushargupta2k3:tUshar%40123@twitter.fzbvq5v.mongodb.net/");
 }
 
 main().catch((err) => console.log(err));
@@ -117,14 +118,10 @@ passport.deserializeUser(function (user, cb) {
 //Payments
 
 const stripe = require('stripe')('sk_test_51NS13iSCXLoy346ZK25A4MGCusQvLF5GrH5gtdqNxVY4klABYY11Sa159oj1LQ3LtNWt8YxPKlyUylaDv0enju3J00aaq1cYU0')
-const calculateOrderAmount = (items) => {
-  return 1400;
-}
 
 server.post('/create-payment-intent',async(req,res) => {
-  const {items} = req.body;
   const paymentIntent = await stripe.paymentIntents.create({
-    amount:calculateOrderAmount(items),
+    amount:req.body.totalAmount*100,
     currency:'inr',
     automatic_payment_methods: {
       enabled: true,
