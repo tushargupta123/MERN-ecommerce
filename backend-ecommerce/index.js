@@ -56,8 +56,9 @@ server.use("/users", isAuth(), userRouters);
 server.use("/auth", authRouters);
 server.use("/cart", isAuth(), cartRouters);
 server.use("/orders", isAuth(), orderRouters);
-server.get('*',(req,res) => res.sendFile(path.resolve('build','index.html')))
-
+server.get('/', (req, res) =>
+  res.sendFile(path.resolve('build', 'index.html'))
+);
 passport.use(
   "local",
   new LocalStrategy({usernameField:'email'},async function (email, password, done) {
