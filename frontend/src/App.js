@@ -54,7 +54,7 @@ function App() {
           <Route path="/forgot-password" element={<ForgotPassword/>}/>
           <Route path="/cart" element={<Protected><Cart/></Protected>}/>
           <Route path="/checkout" element={<Protected><Checkout/></Protected>}/>
-          <Route path="/orders" element={<Protected><UserOrdersPage/></Protected>}/>
+          <Route path="/my-orders" element={<Protected><UserOrdersPage/></Protected>}/>
           <Route path="/profile" element={<Protected><UserProfilePage/></Protected>}/>
           <Route path="/order-success/:id" element={<Protected><OrderSuccessPage/></Protected>}/>
           <Route path="/product-detail/:id" element={<Protected><ProductDetailPage/></Protected>}/>

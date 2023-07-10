@@ -56,6 +56,7 @@ server.use("/users", isAuth(), userRouters);
 server.use("/auth", authRouters);
 server.use("/cart", isAuth(), cartRouters);
 server.use("/orders", isAuth(), orderRouters);
+server.get('*',(req,res) => res.sendFile(path.resolve('build','index.html')))
 
 passport.use(
   "local",
@@ -125,6 +126,9 @@ server.post('/create-payment-intent',async(req,res) => {
     currency:'inr',
     automatic_payment_methods: {
       enabled: true,
+    },
+    metadata:{
+      orderId:req.body.orderId
     }
   })
   res.send({
