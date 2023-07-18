@@ -45,7 +45,7 @@ server.use(cookieParser());
 server.use(passport.authenticate("session"));
 
 async function main() {
-  await mongoose.connect("mongodb+srv://tushargupta2k3:tUshar%40123@twitter.fzbvq5v.mongodb.net/");
+  await mongoose.connect("mongodb+srv://tushargupta2k3:tUshar%40123@twitter.fzbvq5v.mongodb.net/ecommerce");
 }
 
 main().catch((err) => console.log(err));
