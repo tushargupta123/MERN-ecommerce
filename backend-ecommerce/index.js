@@ -49,13 +49,20 @@ async function main() {
 }
 
 main().catch((err) => console.log(err));
-server.use("/products", isAuth(), productRouters);
-server.use("/brands", isAuth(), brandRouters);
-server.use("/categories", isAuth(), categoryRouters);
-server.use("/users", isAuth(), userRouters);
+server.use("/products", productRouters);
+server.use("/brands", brandRouters);
+server.use("/categories", categoryRouters);
+server.use("/users", userRouters);
 server.use("/auth", authRouters);
-server.use("/cart", isAuth(), cartRouters);
-server.use("/orders", isAuth(), orderRouters);
+server.use("/cart", cartRouters);
+server.use("/orders", orderRouters);
+// server.use("/products", isAuth(), productRouters);
+// server.use("/brands", isAuth(), brandRouters);
+// server.use("/categories", isAuth(), categoryRouters);
+// server.use("/users", isAuth(), userRouters);
+// server.use("/auth", authRouters);
+// server.use("/cart", isAuth(), cartRouters);
+// server.use("/orders", isAuth(), orderRouters);
 server.get('/', (req, res) =>
   res.sendFile(path.resolve('build', 'index.html'))
 );
