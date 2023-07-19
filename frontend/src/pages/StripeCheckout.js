@@ -17,7 +17,7 @@ export default function StripeCheckout() {
   useEffect(() => {
     setInterval(() => {
       if (currentOrder) {
-        fetch("/create-payment-intent", {
+        fetch("https://mern-ecommerce-tan.vercel.app/create-payment-intent", {
           method: "POST",
           headers: { "Content-Type": "application/json" },
           body: JSON.stringify({ totalAmount: currentOrder.totalAmount ,orderId:currentOrder.id}),

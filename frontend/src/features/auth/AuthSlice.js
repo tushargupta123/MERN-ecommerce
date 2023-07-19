@@ -1,11 +1,10 @@
 import { createAsyncThunk, createSlice } from '@reduxjs/toolkit';
-import { checkAuth, createUser, loginUser, signOut } from './AuthAPI';
+import { createUser, loginUser, signOut } from './AuthAPI';
 
 const initialState = {
   loggedInUserToken: null,
   status: 'idle',
   error:null,
-  userCheck:false
 };
 
 export const createUserAsync = createAsyncThunk(
@@ -24,13 +23,6 @@ export const loginUserAsync = createAsyncThunk(
     }catch(err){
       return rejectWithValue(err);
     }
-  }
-);
-export const checkAuthAsync = createAsyncThunk(
-  'user/checkAuth',
-  async () => {
-      const response = await checkAuth();
-      return response.data;
   }
 );
 export const signOutAsync = createAsyncThunk(
@@ -52,6 +44,7 @@ export const userSlice = createSlice({
       .addCase(createUserAsync.fulfilled, (state, action) => {
         state.status = 'idle';
         state.loggedInUserToken = action.payload;
+        localStorage.setItem('token',action.payload)
       })
       .addCase(loginUserAsync.pending, (state) => {
         state.status = 'loading';
@@ -59,6 +52,7 @@ export const userSlice = createSlice({
       .addCase(loginUserAsync.fulfilled, (state, action) => {
         state.status = 'idle';
         state.loggedInUserToken = action.payload;
+        localStorage.setItem('token',action.payload)
       })
       .addCase(loginUserAsync.rejected, (state, action) => {
         state.status = 'idle';
@@ -70,24 +64,12 @@ export const userSlice = createSlice({
       .addCase(signOutAsync.fulfilled, (state, action) => {
         state.status = 'idle';
         state.loggedInUserToken = null;
-      })
-      .addCase(checkAuthAsync.pending, (state) => {
-        state.status = 'loading';
-      })
-      .addCase(checkAuthAsync.fulfilled, (state, action) => {
-        state.status = 'idle';
-        state.loggedInUserToken = action.payload;
-        state.userCheck = true;
-      })
-      .addCase(checkAuthAsync.rejected, (state, action) => {
-        state.status = 'idle';
-        state.userCheck = true;
+        localStorage.removeItem('token')
       })
   },
 });
 
 export const selectLoggedInUser = (state) => state.auth.loggedInUserToken;
 export const selectError = (state) => state.auth.error;
-export const selectUserChecked = (state) => state.auth.userCheck;
 
 export default userSlice.reducer;

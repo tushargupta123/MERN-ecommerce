@@ -22,7 +22,7 @@ import AdminProductListPage from './pages/AdminProductListPage';
 import AdminProductDetailPage from './pages/AdminProductDetailPage';
 import AdminProductFormPage from './pages/AdminProductForm';
 import AdminOrdersPage from './pages/AdminOrdersPage';
-import { checkAuthAsync, selectLoggedInUser, selectUserChecked } from './features/auth/AuthSlice';
+import {  selectLoggedInUser } from './features/auth/AuthSlice';
 import StripeCheckout from './pages/StripeCheckout';
 
 // npx json-server --watch ./src/app/data.json --port 8080
@@ -30,7 +30,6 @@ import StripeCheckout from './pages/StripeCheckout';
 function App() {
   const dispatch = useDispatch();
   const user = useSelector(selectLoggedInUser)
-  const userCheck = useSelector(selectUserChecked)
   useEffect(() => {
     if(user){
       dispatch(fetchItemsByUserIdAsync())
@@ -38,13 +37,9 @@ function App() {
     }
   },[dispatch,user]);
 
-  useEffect(() => {
-    dispatch(checkAuthAsync())
-  },[])
-
   return (
     <div>
-     {userCheck &&  <BrowserRouter>
+       <BrowserRouter>
         <Routes>
           <Route path="/" element={<Protected><Home/></Protected>}/>
           <Route path="*" element={<PageNotFound/>}/>
@@ -65,7 +60,7 @@ function App() {
           <Route path="/admin/orders" element={<ProtectedAdmin><AdminOrdersPage/></ProtectedAdmin>}/>
           <Route path="/stripe-checkout" element={<Protected><StripeCheckout/></Protected>}/>
         </Routes>
-      </BrowserRouter>}
+      </BrowserRouter>
     </div>
   );
 }

@@ -6,9 +6,9 @@ import {
   XMarkIcon,
 } from "@heroicons/react/24/outline";
 import { Link, useNavigate } from "react-router-dom";
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { selectItems } from "../cart/cartSlice";
-import { selectUserInfo } from "../user/userSlice";
+import { fetchLoggedInUserAsync, selectUserInfo } from "../user/userSlice";
 
 const navigation = [
   { name: "Dashboard", link: "#", current: true,user:true },
@@ -31,10 +31,14 @@ export default function Navbar({ children }) {
   const navigate = useNavigate();
   const items = useSelector(selectItems);
   const userInfo = useSelector(selectUserInfo);
+  const dispatch = useDispatch();
+  useEffect(() => {
+    dispatch(fetchLoggedInUserAsync())
+  },[dispatch])
 
   return (
     <>
-      {userInfo && <div className="min-h-full">
+      { userInfo && <div className="min-h-full">
         <Disclosure as="nav" className="bg-gray-800">
           {({ open }) => (
             <>

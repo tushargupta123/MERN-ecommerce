@@ -91,8 +91,7 @@ const AdminOrders = () => {
                     </td>
                     <td className="py-3 px-6 text-center">
                       <div className="flex items-center justify-center">
-                        <strong>{order.selectAdd[0].name}</strong> ,{" "}
-                        {order.selectAdd[0].street} , {order.selectAdd[0].city} ,{" "}
+                        <strong>{order.selectAdd[0].name}</strong> ,
                         {order.selectAdd[0].pincode}
                       </div>
                     </td>
