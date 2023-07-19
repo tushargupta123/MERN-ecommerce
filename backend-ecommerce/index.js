@@ -9,23 +9,10 @@ const authRouters = require("./routes/Auth");
 const cartRouters = require("./routes/Cart");
 const orderRouters = require("./routes/Order");
 const cors = require("cors");
-const session = require("express-session");
 const passport = require("passport");
-const LocalStrategy = require("passport-local").Strategy;
 const { User } = require("./model/User");
-const crypto = require("crypto");
-const { isAuth, sanitizeUser, cookieExtractor } = require("./services/common");
-const JwtStrategy = require("passport-jwt").Strategy;
-const cookieParser = require('cookie-parser');
-const jwt = require("jsonwebtoken");
-const SECRET_KEY = "SECRET_KEY";
-const path = require("path");
-
-const opts = {};
-opts.jwtFromRequest = cookieExtractor;
-opts.secretOrKey = SECRET_KEY;
-
-server.use(express.static(path.resolve(__dirname,'build')))
+const { isAuth } = require("./services/common");
+const JWT = require('passport-jwt');
 
 server.use(express.json());
 server.use(
@@ -34,87 +21,31 @@ server.use(
   })
 );
 
-server.use(
-  session({
-    secret: "keyboard cat",
-    resave: false,
-    saveUninitialized: false,
-  })
-);
-server.use(cookieParser());
-server.use(passport.authenticate("session"));
-
 async function main() {
   await mongoose.connect("mongodb+srv://tushargupta2k3:tUshar%40123@twitter.fzbvq5v.mongodb.net/ecommerce");
 }
 
 main().catch((err) => console.log(err));
-server.use("/products", isAuth(), productRouters);
-server.use("/brands", isAuth(), brandRouters);
-server.use("/categories", isAuth(), categoryRouters);
-server.use("/users", isAuth(), userRouters);
+server.use("/products", isAuth, productRouters);
+server.use("/brands", isAuth, brandRouters);
+server.use("/categories", isAuth, categoryRouters);
+server.use("/users", isAuth, userRouters);
 server.use("/auth", authRouters);
-server.use("/cart", isAuth(), cartRouters);
-server.use("/orders", isAuth(), orderRouters);
-server.get('/', (req, res) =>
-  res.sendFile(path.resolve('build', 'index.html'))
-);
-passport.use(
-  "local",
-  new LocalStrategy({usernameField:'email'},async function (email, password, done) {
-    try {
-      const user = await User.findOne({ email: email });
-      if (!user) {
-        done(null, false, { message: "invalid credentials" });
-      }
-      crypto.pbkdf2(
-        password,
-        user.salt,
-        310000,
-        32,
-        "sha256",
-        async function (err, hashedPassword) {
-          if (!crypto.timingSafeEqual(user.password, hashedPassword)) {
-            done(null, false, { message: "invalid credentials" });
-          } else {
-            const token = jwt.sign(sanitizeUser(user), SECRET_KEY);
-            done(null, {id:user.id,role:user.role});
-          }
-        }
-      );
-    } catch (err) {
-      done(err);
-    }
-  })
-);
+server.use("/cart", isAuth, cartRouters);
+server.use("/orders", isAuth, orderRouters);
 
-passport.use(
-  "jwt",
-  new JwtStrategy(opts, async function (jwt_payload, done) {
-    try {
-      const user = await User.findById(jwt_payload.id);
-      if (user) {
-        return done(null, sanitizeUser(user));
-      } else {
-        return done(null, false);
-      }
-    } catch (err) {
-      return done(err, false);
-    }
-  })
-);
-
-passport.serializeUser(function (user, cb) {
-  process.nextTick(function () {
-    return cb(null, sanitizeUser(user));
-  });
-});
-
-passport.deserializeUser(function (user, cb) {
-  process.nextTick(function () {
-    return cb(null, user);
-  });
-});
+const JwtStrategy = JWT.Strategy;
+const ExtractJwt = JWT.ExtractJwt;
+const opts = {
+    jwtFromRequest: ExtractJwt.fromAuthHeaderAsBearerToken(),
+    secretOrKey: 'auth_secret'
+}
+server.use(passport.initialize());
+passport.use(new JwtStrategy(opts,async(jwt_payload,done) => {
+    const user = await User.findById(jwt_payload.id);
+    if(!user){done(null,false)}
+    else{done(null,user)}
+}))
 
 
 //Payments
