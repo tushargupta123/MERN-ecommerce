@@ -54,12 +54,12 @@ export default function AdminPrductDetail() {
             <div className="pt-6">
               <nav aria-label="Breadcrumb">
                 <ol
-                  role="list"
                   className="mx-auto flex max-w-2xl items-center space-x-2 px-4 sm:px-6 lg:max-w-7xl lg:px-8"
                 >
                   <li className="text-sm">
                     <a
                       aria-current="page"
+                      href="/"
                       className="font-medium text-gray-500 hover:text-gray-600"
                     >
                       {product.title}
@@ -193,7 +193,7 @@ export default function AdminPrductDetail() {
                           Size
                         </h3>
                         <a
-                          href="#"
+                          href="/"
                           className="text-sm font-medium text-indigo-600 hover:text-indigo-500"
                         >
                           Size guide
@@ -298,7 +298,6 @@ export default function AdminPrductDetail() {
 
                     <div className="mt-4">
                       <ul
-                        role="list"
                         className="list-disc space-y-2 pl-4 text-sm"
                       >
                         {product.highlights &&

@@ -36,7 +36,7 @@ export function deleteItemsFromCart(itemId) {
       Authorization: `Bearer ${localStorage.getItem("token")}`,
     }
   })
-  const data = await response.json();
+  await response.json();
   resolve({data : {id:itemId}})
     });
 }

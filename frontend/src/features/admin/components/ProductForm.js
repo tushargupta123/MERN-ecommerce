@@ -1,7 +1,7 @@
 import { useDispatch, useSelector } from "react-redux";
 import { clearSelectedProduct, createProductAsync, fetchProductByIdAsync, selectBrands, selectCategories, selectProductById, updateProductAsync } from "../../product/productSlice";
 import { useForm } from "react-hook-form";
-import { Navigate, useNavigate, useParams } from "react-router-dom";
+import {  useNavigate, useParams } from "react-router-dom";
 import { useEffect, useState } from "react";
 
 const ProductForm = () => {
@@ -13,7 +13,6 @@ const ProductForm = () => {
   const {
     register,
     handleSubmit,
-    formState: { errors },
     reset,
     setValue
   } = useForm();
@@ -27,7 +26,7 @@ const ProductForm = () => {
     }else{
       dispatch(clearSelectedProduct())
     }
-  },[params.id])
+  },[params.id,dispatch])
 
   useEffect(() => {
     if(product && params.id){

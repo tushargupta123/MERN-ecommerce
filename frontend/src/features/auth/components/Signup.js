@@ -1,7 +1,7 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect } from "react";
 import { useSelector, useDispatch } from "react-redux";
 import {selectLoggedInUser,createUserAsync} from "../AuthSlice";
-import { Link, Navigate, useNavigate } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { useForm } from "react-hook-form";
 
 export default function Signup() {
@@ -9,7 +9,6 @@ export default function Signup() {
   const {
     register,
     handleSubmit,
-    watch,
     formState: { errors },
   } = useForm();
 
@@ -20,7 +19,7 @@ export default function Signup() {
     if(user){
       navigate('/');
     }
-  },[user])
+  },[user,navigate])
 
   return (
     <div className="flex min-h-full flex-1 flex-col justify-center px-6 py-12 lg:px-8">
@@ -58,7 +57,7 @@ export default function Signup() {
                 {...register("email", {
                   required: "email is required",
                   pattern: {
-                    value: /\b[\w\.-]+@[\w\.-]+\.\w{2,4}\b/gi,
+                    value: /\b[\w.-]+@[\w.-]+\.\w{2,4}\b/gi,
                     message: "email not valid",
                   },
                 })}

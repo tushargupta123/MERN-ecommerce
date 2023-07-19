@@ -26,7 +26,7 @@ export default function StripeCheckout() {
           .then((data) => setClientSecret(data.clientSecret));
       }
     }, [1000]);
-  }, []);
+  }, [currentOrder]);
 
   const appearance = {
     theme: "stripe",

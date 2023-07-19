@@ -64,7 +64,6 @@ const Checkout = () => {
     register,
     handleSubmit,
     reset,
-    formState: { errors },
   } = useForm();
 
   useEffect(() => {
@@ -75,7 +74,7 @@ const Checkout = () => {
         navigate(`/stripe-checkout`)
       }
     }
-  },[currentOrder])
+  },[currentOrder,navigate])
 
   return (
     <>
@@ -246,7 +245,7 @@ const Checkout = () => {
                   <p className="mt-1 text-sm leading-6 text-gray-600">
                     Choose from existing address
                   </p>
-                  <ul role="list" className="divide-y divide-gray-100">
+                  <ul className="divide-y divide-gray-100">
                     {user && user.addressess.map((address, index) => {
                       return (
                       <li
@@ -352,7 +351,7 @@ const Checkout = () => {
               </h1>
               <div className="mt-8">
                 <div className="flow-root">
-                  <ul role="list" className="-my-6 divide-y divide-gray-200">
+                  <ul className="-my-6 divide-y divide-gray-200">
                     {items.map((item) => (
                       <li key={item.product.id} className="flex py-6">
                         <div className="h-24 w-24 flex-shrink-0 overflow-hidden rounded-md border border-gray-200">

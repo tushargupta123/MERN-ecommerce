@@ -38,7 +38,6 @@ export default function UserProfile() {
     handleSubmit,
     reset,
     setValue,
-    formState: { errors },
   } = useForm();
 
   return (

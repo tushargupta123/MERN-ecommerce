@@ -1,4 +1,3 @@
-import React, { useState, Fragment } from "react";
 import { useSelector, useDispatch } from "react-redux";
 import {
   deleteItemsFromCartAsync,
@@ -12,7 +11,6 @@ export default function Cart() {
   const items = useSelector(selectItems);
   const dispatch = useDispatch();
   const navigate = useNavigate();
-  const [open, setOpen] = useState(true);
 
   const totalAmount = items.reduce(
     (amount, item) => discountedPrice(item.product) * item.quantity + amount,    0
@@ -36,7 +34,7 @@ export default function Cart() {
         </h1>
         <div className="mt-8">
           <div className="flow-root">
-            <ul role="list" className="-my-6 divide-y divide-gray-200">
+            <ul className="-my-6 divide-y divide-gray-200">
               {items.map((item) => {
                 return (
                   <li key={item.product.id} className="flex py-6">
@@ -120,7 +118,6 @@ export default function Cart() {
                 type="button"
                 className="font-medium text-indigo-600 hover:text-indigo-500 ml-2"
                 onClick={() => {
-                  setOpen(false);
                   navigate("/");
                 }}
               >
