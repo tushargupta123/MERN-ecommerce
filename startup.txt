@@ -1,3 +1,0 @@
--> go to backend folder
--> npm start
--> connect mongodb twitter db to server
