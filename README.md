@@ -1,4 +1,4 @@
-to enter as admin use -<br>
+To enter as admin use -<br>
 email : admin@gmail.com<br>
 password : Admin@123<br><br>
 or else create a account as user using signup .
