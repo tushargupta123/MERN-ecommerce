@@ -7,8 +7,8 @@ This project is a fully functional e-commerce application that allows users to b
 
 ## Technologies Used
 - **MERN Stack**: MongoDB, Express.js, React.js, Node.js
-- **Authentication**: bcrypt, passport.js
-- **State Management**: redux
+- **Authentication**: Bcrypt, Passport.js
+- **State Management**: Redux.js
 - **Styling**: Tailwind
 
 ## Features
@@ -18,9 +18,9 @@ This project is a fully functional e-commerce application that allows users to b
 - Redux for state management
 - Responsive design
 
-## Credentials (admin) -<br>
+## Credentials (admin)
 email : admin@gmail.com<br>
 password : Admin@123<br><br>
 or else create a account as user using signup .
-## View Live Project here :<br>
+## Live Project
 https://mern-ecommerce-front-psi.vercel.app/
