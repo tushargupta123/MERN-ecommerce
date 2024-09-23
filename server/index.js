@@ -91,7 +91,7 @@ app.use('/brands', brandsRouter.router);
 app.use('/users', isAuth(), usersRouter.router);
 
 app.use('/auth', authRouter.router);
-app.use('/productCart', isAuth(), cartRouter.router);
+app.use('/cart', isAuth(), cartRouter.router);
 app.use('/orders', isAuth(), ordersRouter.router);
 
 // this line we add to make react router work in case of other routes doesnt match
