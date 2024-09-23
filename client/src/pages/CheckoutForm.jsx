@@ -62,7 +62,7 @@ export default function CheckoutForm() {
       confirmParams: {
 
         // Make sure to change this to your payment completion page
-        return_url: `https://ecommerce-app-tushar.vercel.app/order-success/${currentOrder.id}`,
+        return_url: `https://ecommerce-k2ix.onrender.com/order-success/${currentOrder.id}`,
       },
     });
 
