@@ -25,14 +25,7 @@ const { isAuth, sanitizeUser ,cookieExtractor} = require('./services/common');
 const stripe = require("stripe")(process.env.STRIPE_SERVER_KEY);
 
 
-
-// Webhook
-
-// TODO: we will capture actual order after deploying out server live on public URL
-
 const endpointSecret = process.env.WEBHOOK_ENDPOINT;
-
-// where to run stripe cli (folderwhere stripe.exe downloaded in path type cmd.exe ->stripe.exe->stripe login)
 
 app.post('/webhook', express.raw({type: 'application/json'}), async(request, response) => {
 const sig = request.headers['stripe-signature'];
@@ -43,7 +36,7 @@ const sig = request.headers['stripe-signature'];
     event = await stripe.webhooks.constructEvent(request.body, sig, endpointSecret);
   } catch (err) {
     console.log(err);
-    response.status(400).send(Webhook Error: ${err.message});
+    response.status(400).send(`Webhook Error: ${err.message}`);
     return;
   }
 
@@ -58,7 +51,7 @@ const sig = request.headers['stripe-signature'];
       break;
     // ... handle other event types
     default:
-      console.log(Unhandled event type ${event.type});
+      console.log(`Unhandled event type ${event.type}`);
   }
 
   // Return a 200 response to acknowledge receipt of the event
@@ -167,6 +160,7 @@ passport.serializeUser(function (user, cb) {
 // this changes session variable req.user when called from authorized request
 
 passport.deserializeUser(function (user, cb) {
+  // console.log('de-serialize', user);
   process.nextTick(function () {
     return cb(null, user);
   });
